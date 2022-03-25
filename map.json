@@ -1,0 +1,30 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 500,
+  "height": 550,
+  "params": [{"name": "numU", "select": "point"}],
+  "data": {
+    "url": "https://raw.githubusercontent.com/FFRONGG/choropleth-map/main/district.json",
+    "format": {"type": "topojson", "feature": "geodata"}
+  },
+  "transform": [
+    {
+      "lookup": "properties.dcode",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/FFRONGG/choropleth-map/main/school.csv"
+        },
+        "key": "dcode",
+        "fields": ["count"]
+      }
+    }
+  ],
+  "projection": {"type": "Mercator"},
+  "mark": {"type": "geoshape"},
+  "encoding": {
+    "color": {
+      "condition": {"param": "numU", "field": "count", "type": "quantitative"}
+    }
+  },
+  "config": {}
+}
